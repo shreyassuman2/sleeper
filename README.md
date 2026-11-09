@@ -2,17 +2,15 @@
 
 [![CI](https://github.com/shreyassuman2/sleeper/actions/workflows/ci.yml/badge.svg)](https://github.com/shreyassuman2/sleeper/actions/workflows/ci.yml)
 
-Pick 5 albums you like and get 1 niche album to play next plus 4 runners-up, each with a one-line reason built from a scoring index.
+Pick 5 albums you like and get 1 niche album to play next plus 4 runners-up, each with a one-line reason built from a scoring index. 
 
 **Live:** https://sleeper-pick.vercel.app/
 
 ![Demo: searching for 5 albums and getting recommendations](docs/demo.gif)
 
-> The backend runs on Render's free tier. It sleeps after 15 minutes without visitors and its cache is wiped when it does, so the first search can take about a minute and the first recommendations a few minutes. After that it's fast.
+> First rec might take a bit, backend hosted on React free tier.
 
 ## How it works
-
-The recommendation engine is the core of the project. Each step is a function in `backend/app/engine/`.
 
 1. **Resolve** (`resolve.py`): each input is matched to one MusicBrainz *release group*, the ID shared by every edition of an album. Everything after this is keyed by that ID, not by name strings, so deluxe editions and remasters don't break matching. A match is rejected unless its artist and title closely resemble the input.
 2. **Profile** (`profile.py`): each album's Last.fm tags are cleaned (lowercased; `hip-hop` = `hip hop`; junk like "seen live", "favorite", ratings and exact years removed; decades like "90s" kept). A tag's weight is the number of your 5 albums carrying it. Tags on 2 or more albums are **core**.
